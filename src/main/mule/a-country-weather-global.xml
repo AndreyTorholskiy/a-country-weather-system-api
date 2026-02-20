@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:request-config name="RESTCountries_Request_configuration" doc:name="HTTP Request config" doc:id="2924b8a6-ec61-46f0-bd0d-46de1f14ab8e" basePath="${api.countries.basePath}" >
+		<http:request-connection protocol="HTTPS" host="${api.countries.host}" />
+	</http:request-config>
+	<http:request-config name="OpenWeather_Request_configuration" doc:name="HTTP Request config" doc:id="1147bcae-552c-458c-8f89-ecd88bb39898" basePath="${api.weather.basePath}" >
+		<http:request-connection protocol="HTTPS" host="${api.weather.host}" />
+		<http:default-query-params >
+			<http:query-param key="appid" value="${api.weather.key}" />
+		</http:default-query-params>
+	</http:request-config>
+</mule>
