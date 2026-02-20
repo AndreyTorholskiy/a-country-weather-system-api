@@ -2,7 +2,7 @@
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
     <apikit:config name="a-country-weather-system-api-config" api="a-country-weather-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="a-country-weather-system-api-main">
-        <http:listener path="/api/*">
+        <http:listener path="${http.listener.basePath}/*" config-ref="HTTP_Domain_Listener_config">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
@@ -14,7 +14,7 @@
         <apikit:router config-ref="a-country-weather-system-api-config" />
     </flow>
     <flow name="a-country-weather-system-api-console">
-        <http:listener path="/console/*">
+        <http:listener path="${http.listener.basePath}/console/*" config-ref="HTTP_Domain_Listener_config">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
@@ -25,96 +25,10 @@
         </http:listener>
         <apikit:console config-ref="a-country-weather-system-api-config" />
     </flow>
-    <flow name="get:\countries:a-country-weather-system-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-[
-  {
-    name: {
-      common: "Ukraine",
-      official: "Ukraine",
-      nativeName: {
-        ukr: {
-          official: "Україна",
-          common: "Україна"
-        }
-      }
-    },
-    cca2: "UA",
-    currencies: {
-      UAH: {
-        name: "Ukrainian hryvnia",
-        symbol: "₴"
-      }
-    },
-    capital: [
-      "Kyiv"
-    ],
-    region: "Europe",
-    subregion: "Eastern Europe",
-    languages: {
-      ukr: "Ukrainian"
-    },
-    population: 32862000
-  }
-] as Array {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+    <flow name="get:\country:a-country-weather-system-api-config">
+		<flow-ref doc:name="getCountry" doc:id="ece63a27-64bb-4593-a668-50eadf61563d" name="getCountry" />
     </flow>
-    <flow name="get:\weather:a-country-weather-system-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  coord: {
-    lon: 34.9833,
-    lat: 48.45
-  },
-  weather: [
-    {
-      id: 804,
-      main: "Clouds",
-      description: "overcast clouds",
-      icon: "04n"
-    }
-  ],
-  base: "stations",
-  main: {
-    temp: 275.65,
-    feels_like: 273.01,
-    temp_min: 275.65,
-    temp_max: 275.65,
-    pressure: 1001,
-    humidity: 95,
-    sea_level: 1001,
-    grnd_level: 989
-  },
-  visibility: 10000,
-  wind: {
-    speed: 2.58,
-    deg: 80,
-    gust: 3.25
-  },
-  clouds: {
-    all: 100
-  },
-  dt: 1769784507,
-  sys: {
-    country: "UA",
-    sunrise: 1769749924,
-    sunset: 1769783663
-  },
-  timezone: 7200,
-  id: 709930,
-  name: "Dnipro",
-  cod: 200
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+	<flow name="get:\weather:a-country-weather-system-api-config">
+        <flow-ref doc:name="getWeather" doc:id="3f48961a-7c8f-4e78-887b-72120565108d" name="getWeather" />
     </flow>
 </mule>

@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="getWeather" doc:id="7386fda6-cee8-4e27-bcbe-3996a5ae01d4" >
+		<http:request doc:name="OpenWeather Request" doc:id="90191347-b08e-43ba-8fc0-d57f0d743f13" config-ref="OpenWeather_Request_configuration" path="/weather">
+			<http:query-params ><![CDATA[#[output application/json
+---
+{
+	"q" : attributes.queryParams.city,
+	"units" : "metric"
+}]]]></http:query-params>
+		</http:request>
+	</sub-flow>
+	<sub-flow name="getCountry" doc:id="f05f4486-0c7e-4436-9dce-88e8325274aa" >
+		<http:request doc:name="RESTCountries Request" doc:id="efdf73d9-fc16-4de5-897a-59e364cc405f" config-ref="RESTCountries_Request_configuration" path="/region/europe">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"fields" : "name,capital,currencies,region,subregion,languages,population,cca2"
+}]]]></http:query-params>
+		</http:request>
+	</sub-flow>
+	<sub-flow name="getCountryPL-UA" doc:id="682e851e-2647-4698-8fb0-1a1bca27ec61" >
+		<http:request doc:name="RESTCountries Request" doc:id="7b4b16ee-f811-4483-be4b-d2b6313f2f1c" path="/alpha" config-ref="RESTCountries_Request_configuration">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"codes" : "ua,pl",
+	"fields" : "name,capital,currencies,region,subregion,languages,population,cca2"
+}]]]></http:query-params>
+		</http:request>
+	</sub-flow>
+</mule>
