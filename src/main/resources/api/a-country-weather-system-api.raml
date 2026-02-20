@@ -3,8 +3,55 @@ title: a-country-weather-system-api
 version: v1
 mediaType: application/json
 
+types:
+  Country: !include datatypes/Country.raml
+  Weather: !include datatypes/Weather.raml
+  Error: !include datatypes/Error.raml
 
-
+traits:
+  QueryParameter:
+    queryParameters:
+      city:
+        displayName: Capital
+        description: Capital of the country
+        type: string
+        required: true
+      metrics:
+        displayName: Metrics
+        description: Measurement units (metric for Celsius, imperial for Fahrenheit)
+        type: string
+        required: false
+  ErrorResponse:
+    responses:
+      400:
+        body:
+          type: Error
+          example: !include examples/errors/400.json
+      404:
+        body:
+          type: Error
+          example: !include examples/errors/404.json
+      405:
+        body:
+          type: Error
+          example: !include examples/errors/405.json
+      406:
+        body:
+          type: Error
+          example: !include examples/errors/406.json            
+      415:
+        body:
+          type: Error
+          example: !include examples/errors/415.json
+      500:
+        body:
+          type: Error
+          example: !include examples/errors/500.json
+      501:
+        body:
+          type: Error
+          example: !include examples/errors/501.json            
+ 
 /countries:
   get:
     description: Get information about countries
