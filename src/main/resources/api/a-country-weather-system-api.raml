@@ -1,0 +1,25 @@
+#%RAML 1.0
+title: a-country-weather-system-api
+version: v1
+mediaType: application/json
+
+/countries:
+  get:
+    description: Get information about countries
+    is: [ErrorResponse]
+    responses:
+      200:
+        body:
+          application/json:
+            type: Country[]
+            example: !include examples/country-example.json
+/weather:
+  get:
+    description: Get weather based on country
+    is: [QueryParameter, ErrorResponse]
+    responses:
+      200:
+        body:
+          application/json:
+            type: Weather
+            example: !include examples/weather-example.json
