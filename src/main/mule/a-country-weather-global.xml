@@ -16,5 +16,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		</http:default-query-params>
 	</http:request-config>
 	<apikit:config name="a-country-weather-system-api-config" api="a-country-weather-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-	<configuration-properties doc:name="Configuration properties" doc:id="7a174e18-8877-44a5-8b48-3b2c8e931623" file="config\local-properties.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="7a174e18-8877-44a5-8b48-3b2c8e931623" file="config/${env}-properties.yaml" />
+	<global-property doc:name="Global Property" doc:id="4a9a7d92-d941-4d42-8ffe-6826e2e26908" name="env" value="local" />
 </mule>

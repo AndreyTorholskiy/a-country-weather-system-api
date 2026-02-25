@@ -9,18 +9,13 @@ types:
   Error: !include datatypes/Error.raml
 
 traits:
-  QueryParameter:
+  SearchFilter:
     queryParameters:
       city:
         displayName: Capital
         description: Capital of the country
         type: string
         required: true
-      metrics:
-        displayName: Metrics
-        description: Measurement units (metric for Celsius, imperial for Fahrenheit)
-        type: string
-        required: false
   ErrorResponse:
     responses:
       400:
@@ -54,6 +49,7 @@ traits:
  
 /country:
   get:
+    displayName: Get European Country
     description: Get information about countries
     is: [ErrorResponse]
     responses:
@@ -64,8 +60,9 @@ traits:
             example: !include examples/country-example.json
 /weather:
   get:
+    displayName: Get Country Weather
     description: Get weather based on country
-    is: [QueryParameter, ErrorResponse]
+    is: [SearchFilter, ErrorResponse]
     responses:
       200:
         body:
