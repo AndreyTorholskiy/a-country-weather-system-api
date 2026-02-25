@@ -6,6 +6,18 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<sub-flow name="getWeather" doc:id="7386fda6-cee8-4e27-bcbe-3996a5ae01d4" >
+		<ee:transform doc:name="Logger Message: Flow Start" doc:id="74cd7dc3-3e53-439a-8407-4e3185da0684">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="logMessage"><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Get Weather from OpenWeather"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="auditLogging" doc:id="dd685c4d-c3e1-48e2-8efe-f41a10377576" name="auditLogging" />
 		<set-variable value="#[attributes.queryParams.city]" doc:name="city" doc:id="0c08ab7e-de07-4a2a-9fed-e4535dbc725f" variableName="city"/>
 		<http:request doc:name="Call OpenWeather" doc:id="90191347-b08e-43ba-8fc0-d57f0d743f13" config-ref="OpenWeather_Request_configuration" path="/weather">
 			<http:query-params ><![CDATA[#[output application/json
@@ -15,8 +27,31 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	"units" : "metric"
 }]]]></http:query-params>
 		</http:request>
+		<ee:transform doc:name="Logger Message: API Response" doc:id="35a56bdf-8976-49f4-9cf9-8cabe311512e" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="logMessage" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    message: "Get Weather: weather retrieved"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
 	</sub-flow>
 	<sub-flow name="getCountry" doc:id="f05f4486-0c7e-4436-9dce-88e8325274aa" >
+		<ee:transform doc:name="Logger Message: Flow Start" doc:id="ccdf3b87-57ff-4933-bcaf-a4eb11654832">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="logMessage"><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Get Country from RESTCountries"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="auditLogging" doc:id="8a7db7b6-b82a-4fa2-861c-72e98cdbe99e" name="auditLogging" />
 		<http:request doc:name="Call RESTCountries" doc:id="efdf73d9-fc16-4de5-897a-59e364cc405f" config-ref="RESTCountries_Request_configuration" path="/region/europe">
 			<http:query-params ><![CDATA[#[output application/java
 ---
@@ -24,6 +59,17 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	"fields" : "name,capital,currencies,region,subregion,languages,population,cca2"
 }]]]></http:query-params>
 		</http:request>
+		<ee:transform doc:name="Logger Message: API Response" doc:id="ecb208b2-07d9-4879-89d0-2f5792012e6c" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="logMessage" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    message: "Get Country: country retrieved"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
 	</sub-flow>
 	<!-- [STUDIO:"getCountryPL-UA"]<sub-flow name="getCountryPL-UA" doc:id="682e851e-2647-4698-8fb0-1a1bca27ec61" >
 		<http:request doc:name="RESTCountries Request" doc:id="7b4b16ee-f811-4483-be4b-d2b6313f2f1c" path="/alpha" config-ref="RESTCountries_Request_configuration">

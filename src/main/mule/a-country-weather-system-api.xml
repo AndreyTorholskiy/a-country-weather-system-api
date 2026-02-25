@@ -10,7 +10,9 @@
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
-        <apikit:router config-ref="a-country-weather-system-api-config" />
+        <flow-ref doc:name="initialRequestLogging" doc:id="aae3d6be-b3f6-463b-b717-6251a72ba6e7" name="initialRequestLogging" />
+		<apikit:router config-ref="a-country-weather-system-api-config" />
+		<flow-ref doc:name="finalLoggerMessage" doc:id="cccc73f4-7ba7-4ab4-908b-baa257827335" name="finalLoggerMessage" />
     </flow>
     <flow name="a-country-weather-system-api-console">
         <http:listener path="${http.listener.basePath}/console/*" config-ref="HTTP_Domain_Listener_config">

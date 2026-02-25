@@ -18,4 +18,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<apikit:config name="a-country-weather-system-api-config" api="a-country-weather-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 	<configuration-properties doc:name="Configuration properties" doc:id="7a174e18-8877-44a5-8b48-3b2c8e931623" file="config/${env}-properties.yaml" />
 	<global-property doc:name="Global Property" doc:id="4a9a7d92-d941-4d42-8ffe-6826e2e26908" name="env" value="local" />
+	<import doc:name="Import" doc:id="71eb9b35-f055-483e-9744-02ffd44ce9ef" file="a-error-common.xml" />
+	<configuration doc:name="Configuration" doc:id="f5d5c83e-ef52-4b0b-83bf-18e1d3159505" defaultErrorHandler-ref="a-globalError_Handler" />
+	<import doc:name="Import" doc:id="76e10058-94b6-41e2-a3cc-cba84d0c3fc2" file="a-logging-common.xml"/>
 </mule>
