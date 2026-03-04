@@ -18,12 +18,11 @@ output application/json
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="auditLogging" doc:id="dd685c4d-c3e1-48e2-8efe-f41a10377576" name="auditLogging" />
-		<set-variable value="#[attributes.queryParams.city]" doc:name="city" doc:id="0c08ab7e-de07-4a2a-9fed-e4535dbc725f" variableName="city"/>
 		<http:request doc:name="Call OpenWeather" doc:id="90191347-b08e-43ba-8fc0-d57f0d743f13" config-ref="OpenWeather_Request_configuration" path="/weather">
 			<http:query-params ><![CDATA[#[output application/json
 ---
 {
-	"q" : vars.city,
+	"q" : attributes.queryParams.city,
 	"units" : "metric"
 }]]]></http:query-params>
 		</http:request>
@@ -32,9 +31,11 @@ output application/json
 			<ee:variables >
 				<ee:set-variable variableName="logMessage" ><![CDATA[%dw 2.0
 output application/json
+var city = payload.name
 ---
 {
-    message: "Get Weather: weather retrieved"
+    message: "Get Weather: weather retrieved",
+    requestedCityWeather: city
 }]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
@@ -64,9 +65,11 @@ output application/json
 			<ee:variables >
 				<ee:set-variable variableName="logMessage" ><![CDATA[%dw 2.0
 output application/json
+var countryCount = sizeOf(payload)
 ---
 {
-    message: "Get Country: country retrieved"
+    message: "Get Country: countries retrieved",
+    fetchedRecords: countryCount
 }]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
