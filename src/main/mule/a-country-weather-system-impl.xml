@@ -79,14 +79,4 @@ var countryCount = sizeOf(payload)
 			</ee:variables>
 		</ee:transform>
 	</sub-flow>
-	<!-- [STUDIO:"getCountryPL-UA"]<sub-flow name="getCountryPL-UA" doc:id="682e851e-2647-4698-8fb0-1a1bca27ec61" >
-		<http:request doc:name="RESTCountries Request" doc:id="7b4b16ee-f811-4483-be4b-d2b6313f2f1c" path="/alpha" config-ref="RESTCountries_Request_configuration">
-			<http:query-params ><![CDATA[#[output application/java
-&#45;&#45;-
-{
-	"codes" : "ua,pl",
-	"fields" : "name,capital,currencies,region,subregion,languages,population,cca2"
-}&#93;&#93;&#93;></http:query-params>
-		</http:request>
-	</sub-flow> [STUDIO] -->
 </mule>
