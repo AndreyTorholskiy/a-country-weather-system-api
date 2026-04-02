@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
 	<http:request-config name="RESTCountries_Request_configuration" doc:name="HTTP Request config" doc:id="2924b8a6-ec61-46f0-bd0d-46de1f14ab8e" basePath="${api.countries.basePath}" >
 		<http:request-connection protocol="HTTPS" host="${api.countries.host}" />
 	</http:request-config>
@@ -21,4 +24,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<import doc:name="Import error handling" doc:id="71eb9b35-f055-483e-9744-02ffd44ce9ef" file="a-error-common.xml" />
 	<configuration doc:name="Configuration" doc:id="f5d5c83e-ef52-4b0b-83bf-18e1d3159505" defaultErrorHandler-ref="a-globalError_Handler" />
 	<import doc:name="Import common logging" doc:id="76e10058-94b6-41e2-a3cc-cba84d0c3fc2" file="a-logging-common.xml"/>
+	<ee:object-store-caching-strategy name="Country_Caching_Strategy" doc:name="Caching Strategy" doc:id="76ab74b5-6410-4684-87e2-0d7804b4ad0b" keyGenerationExpression='#["weather_key" ++ uuid()]' >
+		<os:private-object-store entryTtl="24" entryTtlUnit="HOURS" expirationInterval="12" expirationIntervalUnit="HOURS" />
+	</ee:object-store-caching-strategy>
 </mule>
