@@ -11,4 +11,4 @@ api:
   weather:
     host: "api.openweathermap.org"
     basePath: "/data/2.5"
-    key: ""
+    key: "![hp4Emd76YNxyaEChsd6706Qxf+Vz4dry1bt5JbQ21MQyboilW2jsTg==]"
