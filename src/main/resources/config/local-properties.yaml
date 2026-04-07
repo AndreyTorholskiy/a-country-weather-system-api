@@ -1,0 +1,14 @@
+version: "v1"
+
+http:
+  listener:
+    basePath: "/a-country-weather-sa/api/${version}"      
+
+api:
+  countries:
+    host: "restcountries.com"
+    basePath: "/v3.1"
+  weather:
+    host: "api.openweathermap.org"
+    basePath: "/data/2.5"
+    key: "![hp4Emd76YNxyaEChsd6706Qxf+Vz4dry1bt5JbQ21MQyboilW2jsTg==]"

@@ -1,0 +1,71 @@
+#%RAML 1.0
+title: a-country-weather-system-api
+version: v1
+mediaType: application/json
+
+types:
+  Country: !include datatypes/Country.raml
+  Weather: !include datatypes/Weather.raml
+  Error: !include datatypes/Error.raml
+
+traits:
+  SearchFilter:
+    queryParameters:
+      city:
+        displayName: Capital
+        description: Capital of the country
+        type: string
+        required: true
+  ErrorResponse:
+    responses:
+      400:
+        body:
+          type: Error
+          example: !include examples/errors/400.json
+      404:
+        body:
+          type: Error
+          example: !include examples/errors/404.json
+      405:
+        body:
+          type: Error
+          example: !include examples/errors/405.json
+      406:
+        body:
+          type: Error
+          example: !include examples/errors/406.json            
+      415:
+        body:
+          type: Error
+          example: !include examples/errors/415.json
+      500:
+        body:
+          type: Error
+          example: !include examples/errors/500.json
+      501:
+        body:
+          type: Error
+          example: !include examples/errors/501.json            
+ 
+/country:
+  get:
+    displayName: Get European Country
+    description: Get information about countries
+    is: [ErrorResponse]
+    responses:
+      200:
+        body:
+          application/json:
+            type: Country[]
+            example: !include examples/country-list-example.json
+/weather:
+  get:
+    displayName: Get Country Weather
+    description: Get weather based on country
+    is: [SearchFilter, ErrorResponse]
+    responses:
+      200:
+        body:
+          application/json:
+            type: Weather
+            example: !include examples/weather-example.json
