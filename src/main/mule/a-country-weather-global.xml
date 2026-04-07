@@ -25,7 +25,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 	<import doc:name="Import error handling" doc:id="71eb9b35-f055-483e-9744-02ffd44ce9ef" file="a-error-common.xml" />
 	<configuration doc:name="Configuration" doc:id="f5d5c83e-ef52-4b0b-83bf-18e1d3159505" defaultErrorHandler-ref="a-globalError_Handler" />
 	<import doc:name="Import common logging" doc:id="76e10058-94b6-41e2-a3cc-cba84d0c3fc2" file="a-logging-common.xml"/>
-	<ee:object-store-caching-strategy name="Country_Caching_Strategy" doc:name="Caching Strategy" doc:id="76ab74b5-6410-4684-87e2-0d7804b4ad0b" keyGenerationExpression='#["weather_key" ++ uuid()]' >
+	<ee:object-store-caching-strategy name="Country_Caching_Strategy" doc:name="Caching Strategy" doc:id="76ab74b5-6410-4684-87e2-0d7804b4ad0b">
 		<os:private-object-store entryTtl="24" entryTtlUnit="HOURS" expirationInterval="12" expirationIntervalUnit="HOURS" />
 	</ee:object-store-caching-strategy>
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="f144cd8d-d2cb-4ca8-a547-10e717468f5f" file="config/${env}-properties.yaml" key="${secure.key}" >
